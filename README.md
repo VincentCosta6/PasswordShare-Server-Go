@@ -1,48 +1,24 @@
+# PasswordShare Server - Golang
+This repository is the server used by PasswordShare, an open source alternative to LastPass. It is written in Golang and deployed to Heroku. It uses gin-gonic as its REST server framework. MongoDB is used as its primary database.
 
-# go-getting-started
+# Live Server
+PasswordShare Server is deployed to Heroku and is available at https://password-share-server-golang.herokuapp.com/ and uses a free tier of MongoDB Atlas
 
-A barebones Go app, which can easily be deployed to Heroku.
-
-This application supports the [Getting Started with Go on Heroku](https://devcenter.heroku.com/articles/getting-started-with-go) article - check it out.
-
-## Running Locally
-
-Make sure you have [Go](http://golang.org/doc/install) version 1.12 or newer and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
-
-```sh
-$ git clone https://github.com/heroku/go-getting-started.git
-$ cd go-getting-started
-$ go build -o bin/go-getting-started -v . # or `go build -o bin/go-getting-started.exe -v .` in git bash
-github.com/mattn/go-colorable
-gopkg.in/bluesuncorp/validator.v5
-golang.org/x/net/context
-github.com/heroku/x/hmetrics
-github.com/gin-gonic/gin/render
-github.com/manucorporat/sse
-github.com/heroku/x/hmetrics/onload
-github.com/gin-gonic/gin/binding
-github.com/gin-gonic/gin
-github.com/heroku/go-getting-started
-$ heroku local
+# Development Server
+In order to run this repository locally for development, make sure to create a .env file with the following options:
+```
+MONGO_URI = <mongo server URI>
+MONGO_USERNAME = <mongo_username>
+MONGO_PASSWORD = <mongo_password>
+SERVER_PORT = <port> (defaults to 8000)
 ```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+# Development Dependencies
+This repository uses govendor as its dependency manager.
 
-## Deploying to Heroku
-
-```sh
-$ heroku create
-$ git push heroku main
-$ heroku open
+## Adding a dependency
+Use the command: 
 ```
-
-or
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-
-## Documentation
-
-For more information about using Go on Heroku, see these Dev Center articles:
-
-- [Go on Heroku](https://devcenter.heroku.com/categories/go)
+govendor fetch <package>
+```
+to add new dependencies

@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "I2/NxH3I0bZgB3WE7xzRltaELOA=",
+			"path": "github.com/joho/godotenv",
+			"revision": "ddf83eb33bbb136f62617a409142b74b91dbcff3",
+			"revisionTime": "2021-03-04T09:35:31Z"
+		}
+	],
+	"rootPath": "PasswordShare"
+}

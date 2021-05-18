@@ -7,11 +7,13 @@ PasswordShare Server is deployed to Heroku and is available at https://password-
 # Development Server
 In order to run this repository locally for development, make sure to create a .env file with the following options:
 ```
-MONGO_URI = <mongo server URI>
+MONGO_JUST_URI = <boolean>
+MONGO_CONNECTION_URI = <mongo server URI>
 MONGO_USERNAME = <mongo_username>
 MONGO_PASSWORD = <mongo_password>
 SERVER_PORT = <port> (defaults to 8000)
 ```
+* NOTE: if only using URI for connection set $MONGO_JUST_URI to true and ignore $MONGO_USERNAME and $MONGO_PASSWORD. If using username/password seperately then set this to false and include the $MONGO_USERNAME and $MONGO_PASSWORD environment variables
 
 # Development Dependencies
 This repository uses govendor as its dependency manager.

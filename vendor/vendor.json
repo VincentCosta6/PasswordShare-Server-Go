@@ -3,6 +3,12 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "QsN57dtteQDAyZa8ssuWyi6TFsg=",
+			"path": "github.com/dgrijalva/jwt-go",
+			"revision": "dc14462fd58732591c7fa58cc8496d6824316a82",
+			"revisionTime": "2020-01-07T01:32:13Z"
+		},
+		{
 			"checksumSHA1": "h0OyM0uf40lnwTU89ENuiATar5Q=",
 			"path": "github.com/go-stack/stack",
 			"revision": "2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a",
@@ -267,12 +273,16 @@
 			"revisionTime": "2021-05-13T15:05:28Z"
 		},
 		{
+			"checksumSHA1": "1MGpGDQqnUoRpv7VEcQrXOBydXE=",
 			"path": "golang.org/x/crypto/pbkdf2",
-			"revision": ""
+			"revision": "c07d793c2f9aacf728fe68cbd7acd73adbd04159",
+			"revisionTime": "2021-05-13T15:05:28Z"
 		},
 		{
+			"checksumSHA1": "fnDLsxqM8CoifxEPvbynvbfJxC8=",
 			"path": "golang.org/x/crypto/scrypt",
-			"revision": ""
+			"revision": "c07d793c2f9aacf728fe68cbd7acd73adbd04159",
+			"revisionTime": "2021-05-13T15:05:28Z"
 		},
 		{
 			"checksumSHA1": "7lSMV7reRkSiAHsHA4jRwEcnOvE=",

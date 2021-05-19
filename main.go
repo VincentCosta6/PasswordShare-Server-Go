@@ -51,10 +51,12 @@ func main() {
 
 	client := initMongoDBConnection()
 
-	userRepo := repositories.NewUserRepo(client)
+	database := client.Database(os.Getenv("MONGO_DATABASE"))
+
+	userRepo := repositories.NewUserRepo(database)
 	userController := controllers.NewUserController(userRepo)
 
-	router.GET("/test", userController.SuccessRoute)
+	router.POST("/register", userController.RegisterRoute)
 
 	router.Run(":" + port)
 }

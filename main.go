@@ -57,6 +57,7 @@ func main() {
 	userController := controllers.NewUserController(userRepo)
 
 	router.POST("/register", userController.RegisterRoute)
+	router.POST("/login", userController.LoginRoute)
 
 	router.Run(":" + port)
 }

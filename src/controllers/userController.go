@@ -17,6 +17,11 @@ type RegisterStruct struct {
 	Password string
 }
 
+type LoginStruct struct {
+	Username string
+	Password string
+}
+
 func (h *BaseHandler) RegisterRoute(c *gin.Context) {
 	var form RegisterStruct
 
@@ -63,6 +68,45 @@ func (h *BaseHandler) RegisterRoute(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"status": "success", "message": "congrats", "user": newUser, "jwt": tokenString})
+}
+
+func (h *BaseHandler) LoginRoute(c *gin.Context) {
+	var form LoginStruct
+
+	c.BindJSON(&form)
+
+	if form.Username == "" {
+		c.JSON(400, gin.H{"message": "You must send a username"})
+		return
+	}
+
+	if form.Password == "" {
+		c.JSON(400, gin.H{"message": "You must send a password"})
+		return
+	}
+
+	foundUser, err := h.userRepo.FindByUsername(form.Username)
+
+	if err != nil {
+		c.JSON(400, gin.H{"message": "Username doesnt exist"})
+		return
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(foundUser.Password), []byte(form.Password))
+
+	if err != nil {
+		c.JSON(400, gin.H{"message": "Password is incorrect"})
+		return
+	}
+
+	tokenString, err := util.CreateJWTTokenString(&foundUser)
+
+	if err != nil {
+		c.JSON(500, gin.H{"message": "Error creating JWT token", "err": err})
+		return
+	}
+
+	c.JSON(200, gin.H{"status": "success", "message": "congrats", "user": foundUser, "jwt": tokenString})
 }
 
 func NewUserController(userRepo models.UserRepository) *BaseHandler {

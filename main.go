@@ -43,6 +43,8 @@ func main() {
 		}
 	}
 
+	// gin.SetMode((gin.ReleaseMode))
+
 	router := gin.New()
 
 	router.GET("/", func(c *gin.Context) {
@@ -54,10 +56,15 @@ func main() {
 	database := client.Database(os.Getenv("MONGO_DATABASE"))
 
 	userRepo := repositories.NewUserRepo(database)
+	securePasswordRepo := repositories.NewSecurePasswordRepo(database)
+
 	userController := controllers.NewUserController(userRepo)
+	securePasswordController := controllers.NewSecurePasswordController(userRepo, securePasswordRepo)
 
 	router.POST("/register", userController.RegisterRoute)
 	router.POST("/login", userController.LoginRoute)
+
+	router.POST("/secure-password/create", securePasswordController.CreateSecurePasswordRoute)
 
 	router.Run(":" + port)
 }

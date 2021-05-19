@@ -22,6 +22,12 @@ type LoginStruct struct {
 	Password string
 }
 
+func NewUserController(userRepo models.UserRepository) *BaseHandler {
+	return &BaseHandler{
+		userRepo: userRepo,
+	}
+}
+
 func (h *BaseHandler) RegisterRoute(c *gin.Context) {
 	var form RegisterStruct
 
@@ -107,12 +113,6 @@ func (h *BaseHandler) LoginRoute(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"status": "success", "message": "congrats", "user": foundUser, "jwt": tokenString})
-}
-
-func NewUserController(userRepo models.UserRepository) *BaseHandler {
-	return &BaseHandler{
-		userRepo: userRepo,
-	}
 }
 
 func (h *BaseHandler) SuccessRoute(c *gin.Context) {

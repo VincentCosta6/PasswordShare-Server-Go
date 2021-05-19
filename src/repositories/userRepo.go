@@ -26,19 +26,15 @@ func (r *UserRepo) FindByID(id string) (*models.User, error) {
 func (r *UserRepo) FindByUsername(username string) (models.User, error) {
 	var foundUser models.User
 
-	err := r.users.FindOne(context.TODO(), bson.D{{"username", username}}).Decode(&foundUser)
+	err := r.users.FindOne(context.TODO(), bson.D{primitive.E{Key: "username", Value: username}}).Decode(&foundUser)
 
 	return foundUser, err
 }
 
 func (r *UserRepo) CreateUser(username string, hashedPassword string) (*models.User, error) {
-	newUser := models.User{primitive.NewObjectID(), username, hashedPassword}
+	newUser := models.User{ID: primitive.NewObjectID(), Username: username, Password: hashedPassword}
 
 	_, err := r.users.InsertOne(context.TODO(), newUser)
 
 	return &newUser, err
-}
-
-func (r *UserRepo) Save(user *models.User) error {
-	return nil
 }

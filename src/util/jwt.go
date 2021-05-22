@@ -21,5 +21,7 @@ func CreateJWTTokenString(user *models.User) (string, error) {
 		},
 	}
 
+	claims.User.Password = "stop being snoopy"
+
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 }

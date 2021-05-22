@@ -7,7 +7,6 @@ import (
 )
 
 type CreateSecurePassword struct {
-	UserId        string `json:"user_id"`
 	EncryptedData string `json:"encrypted_data"`
 }
 
@@ -25,27 +24,17 @@ func NewSecurePasswordController(userRepo models.UserRepository, securePasswordR
 
 func (h *SecurePasswordHandler) CreateSecurePasswordRoute(c *gin.Context) {
 	var form CreateSecurePassword
-
 	c.BindJSON(&form)
-
-	if form.UserId == "" {
-		c.JSON(400, gin.H{"message": "You must send a user_id field"})
-		return
-	}
 
 	if form.EncryptedData == "" {
 		c.JSON(400, gin.H{"message": "You must send an encrypted_data field"})
 		return
 	}
 
-	_, err := h.userRepo.FindByID(form.UserId)
+	userContext, _ := c.Get("user")
+	user := userContext.(*models.User)
 
-	if err != nil {
-		c.JSON(400, gin.H{"message": "User id not found"})
-		return
-	}
-
-	newSecurePassword, err := h.securePasswordRepo.CreateSecurePassword(form.UserId, form.EncryptedData)
+	newSecurePassword, err := h.securePasswordRepo.CreateSecurePassword(user.ID, form.EncryptedData)
 
 	if err != nil {
 		c.JSON(500, gin.H{"status": "error", "message": "An error occurred while creating the securePassword", "err": err})
@@ -53,4 +42,17 @@ func (h *SecurePasswordHandler) CreateSecurePasswordRoute(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"status": "success", "message": "congrats", "newSecurePassword": newSecurePassword})
+}
+
+func (h *SecurePasswordHandler) GetUsersSecurePasswords(c *gin.Context) {
+	userContext, _ := c.Get("user")
+	user := userContext.(*models.User)
+
+	passwords, err := h.securePasswordRepo.FindAllByUserId(user.ID)
+
+	if err != nil {
+		c.JSON(500, gin.H{"status": "error", "message": "Error occurred while fetching user's passwords", "err": err})
+	}
+
+	c.JSON(200, gin.H{"status": "success", "message": "congrats", "securePasswords": passwords})
 }

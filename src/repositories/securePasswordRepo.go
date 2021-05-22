@@ -28,7 +28,7 @@ func (r *SecurePassworRepo) FindByID(id string) (*models.SecurePassword, error) 
 	return &foundPassword, err
 }
 
-func (r *SecurePassworRepo) FindAllByUserId(userId string) (*[]models.SecurePassword, error) {
+func (r *SecurePassworRepo) FindAllByUserId(userId primitive.ObjectID) (*[]models.SecurePassword, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
@@ -53,16 +53,10 @@ func (r *SecurePassworRepo) FindAllByUserId(userId string) (*[]models.SecurePass
 	return &foundSecurePasswords, err
 }
 
-func (r *SecurePassworRepo) CreateSecurePassword(userId string, encryptedData string) (*models.SecurePassword, error) {
-	convertedUserId, err := primitive.ObjectIDFromHex(userId)
+func (r *SecurePassworRepo) CreateSecurePassword(userId primitive.ObjectID, encryptedData string) (*models.SecurePassword, error) {
+	newSecurePassword := models.SecurePassword{ID: primitive.NewObjectID(), UserId: userId, EncryptedData: encryptedData}
 
-	if err != nil {
-		return nil, err
-	}
-
-	newSecurePassword := models.SecurePassword{ID: primitive.NewObjectID(), UserId: convertedUserId, EncryptedData: encryptedData}
-
-	_, err = r.securePasswords.InsertOne(context.TODO(), newSecurePassword)
+	_, err := r.securePasswords.InsertOne(context.TODO(), newSecurePassword)
 
 	return &newSecurePassword, err
 }

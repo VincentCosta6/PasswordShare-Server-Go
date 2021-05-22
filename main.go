@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"password-share-server-golang/src/controllers"
+	"password-share-server-golang/src/middleware"
 	"password-share-server-golang/src/repositories"
 
 	"github.com/gin-gonic/gin"
@@ -61,10 +62,11 @@ func main() {
 	userController := controllers.NewUserController(userRepo)
 	securePasswordController := controllers.NewSecurePasswordController(userRepo, securePasswordRepo)
 
-	router.POST("/register", userController.RegisterRoute)
-	router.POST("/login", userController.LoginRoute)
+	router.POST("/user/register", userController.RegisterRoute)
+	router.POST("/user/login", userController.LoginRoute)
 
-	router.POST("/secure-password/create", securePasswordController.CreateSecurePasswordRoute)
+	router.POST("/secure-password/create", middleware.EnsureAuth(), securePasswordController.CreateSecurePasswordRoute)
+	router.GET("/secure-password/all", middleware.EnsureAuth(), securePasswordController.GetUsersSecurePasswords)
 
 	router.Run(":" + port)
 }
